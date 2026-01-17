@@ -72,6 +72,7 @@ function lapTime = LapSimMain()
     colorbar; title('Brake bias along track');
 
     save('brakeBias.mat', 'brakeBias')
+    save('velocities.mat', 'v')
 end
 
 function downforce = getDownForce(v)

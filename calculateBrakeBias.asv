@@ -86,10 +86,22 @@ function brakeBias = calculateBrakeBias(v, dt)
     idx = 1;
     for i = 1:length(dt)
         if i == indexes(idx)
-            brakeBias(end+1) = brakeBiasInit(i);
+            brakeBias(end+1) = brakeBiasInit(idx);
             idx = idx + 1;
-        end
         else
+            brakeBias(end+1) = 0;
         end
     end
+    disp(size(brakeBias))
+    for i = 1:100:length(brakeBias)-100
+        thisA = (v(i+100)-v(i))/(sum(dt(i:i+100)));
+        if thisA > 0
+            disp("removing some brake biases")
+            baseBias(i:i+100) = 0;
+        end
+    end
+    figure;
+    plot(a);
+    figure;
+    plot(v);
 end
