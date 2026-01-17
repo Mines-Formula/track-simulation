@@ -16,16 +16,12 @@ function lapTime = LapSimMain()
     %generates each point on the track
     tt = linspace(trackSplineXZ.breaks(1), trackSplineXZ.breaks(end), 100000);
     pts = fnval(trackSplineXZ, tt);
-    %velocity vector
+    %velocity vectory
     d1 = fnval(fnder(trackSplineXZ,1), tt);
-    %curvature
     d2 = fnval(fnder(trackSplineXZ,2), tt);
     
-    %rate of how arc length changes
     speed = sqrt(sum(d1.^2,1));
-    %distance between each point
     ds = speed(1:end-1) .* diff(tt);
-    %distance along the track
     s = [0, cumsum(ds)];
 
     % Step B: curvature κ
@@ -33,7 +29,6 @@ function lapTime = LapSimMain()
     denom = (d1(1,:).^2 + d1(2,:).^2).^(3/2);
     kappa = num ./ denom;
 
-    %speeed limit based on lateral friction
     v_curve = sqrt(params.mu*(params.g) ./ max(kappa,1e-6));
 
 
@@ -45,8 +40,7 @@ function lapTime = LapSimMain()
         v(i) = min(v(i), v_curve(i));
     end
 
-    % Step D: backward brake - ensure it can brake in time for the next
-    % segment
+    % Step D: backward brake
     for i = length(s)-1:-1:1
         v(i) = min(v(i), sqrt(v(i+1)^2 + 2*params.b_max*ds(i)));
     end
@@ -57,21 +51,11 @@ function lapTime = LapSimMain()
 
     fprintf('Lap time = %.2f seconds\n', lapTime);
 
-    % calculate brake bias
-    brakeBias = calculateBrakeBias(v, dt);
-
     % Plot
     figure; hold on; axis equal;
     plot(pts(1,:), pts(2,:), 'k-');          % track
     scatter(pts(1,:), pts(2,:), 5, v, 'filled'); % color by speed
     colorbar; title('Velocity along track');
-
-    figure; hold on; axis equal;
-    plot(pts(1,:), pts(2,:), 'k-');          % track
-    scatter(pts(1,:), pts(2,:), 5, brakeBias, 'filled'); % color by speed
-    colorbar; title('Brake bias along track');
-
-    save('brakeBias.mat', 'brakeBias')
 end
 
 function downforce = getDownForce(v)
