@@ -70,9 +70,6 @@ function lapTime = LapSimMain()
     plot(pts(1,:), pts(2,:), 'k-');          % track
     scatter(pts(1,:), pts(2,:), 5, brakeBias, 'filled'); % color by brakebias
     colorbar; title('Brake bias along track');
-
-    save('brakeBias.mat', 'brakeBias')
-    save('velocities.mat', 'v')
 end
 
 function downforce = getDownForce(v)
