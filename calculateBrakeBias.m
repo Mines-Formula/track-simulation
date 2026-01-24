@@ -7,7 +7,7 @@ function brakeBias = calculateBrakeBias(v, dt)
     %calculate acceleration: dv/dt
     a = zeros(size(dt));
     for i = 1:length(dt)
-        a(i) = (v(i) - v(i+1)) / dt(i);
+        a(i) = (v(i+1) - v(i)) / dt(i);
     end
 
     %only get where it is braking, then make it absolute value
@@ -15,7 +15,7 @@ function brakeBias = calculateBrakeBias(v, dt)
     gs = [];
     indexes = [];
     for i = 1:length(dt)
-        if (a(i) < -5)
+        if (a(i) < 0)
             velocity(end+1) = v(i+1);
             gs(end+1) = abs(a(i));
             indexes(end+1) = i;
@@ -85,25 +85,25 @@ function brakeBias = calculateBrakeBias(v, dt)
     brakeBias = [0];
     idx = 1;
     for i = 1:length(dt)
-        if i == indexes(idx)
+        if idx > length(indexes) | i ~= indexes(idx)
+            brakeBias(end+1) = 0;
+        else 
             brakeBias(end+1) = brakeBiasInit(idx);
             idx = idx + 1;
-        else
-            brakeBias(end+1) = 0;
         end
     end
-    disp(size(brakeBias))
-
-    %switching back to metric system
-    for i = 1:100:length(brakeBias)-100
-        thisA = (v(i+100)-v(i))/(sum(dt(i:i+100)));
-        if thisA > -5
-            disp("removing some brake biases")
-            baseBias(i:i+100) = 0;
+    %filter the brake biases for when it is coasting
+    for j = 5:5:100
+        for i = 1:j:length(brakeBias)-(j+1)
+            thisA = (v(i+j)-v(i))/(sum(dt(i:i+j)));
+            if thisA > -1
+                baseBias(i:i+j) = 0;
+            end
         end
     end
-    figure;
-    plot(a);
-    figure;
-    plot(v);
+    for i = 1:1:length(a)
+        if a(i) > -1
+            brakeBias(i) = 0;
+        end
+    end
 end

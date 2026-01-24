@@ -68,7 +68,7 @@ function lapTime = LapSimMain()
 
     figure; hold on; axis equal;
     plot(pts(1,:), pts(2,:), 'k-');          % track
-    scatter(pts(1,:), pts(2,:), 5, brakeBias, 'filled'); % color by speed
+    scatter(pts(1,:), pts(2,:), 5, brakeBias, 'filled'); % color by brakebias
     colorbar; title('Brake bias along track');
 
     save('brakeBias.mat', 'brakeBias')
