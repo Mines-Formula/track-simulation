@@ -23,9 +23,7 @@ function brakeBias = calculateBrakeBias(v, dt)
     end
 
     %convert to mph
-    velocity = velocity .* 2.237;
-    %convert to ft/s^2
-    gs = gs .* 3.281;
+    velocity = velocity .* 0.681818;
 
     %given data 
     weightCarDriver = 600;
