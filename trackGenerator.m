@@ -8,7 +8,7 @@ function PlotDXFSplines(dxfFilename)
     % ---------- Read entire DXF as lines ----------
     fid = fopen("TrackImperical.dxf", 'r');
     if fid < 0
-        error('Cannot open DXF file: %s', dxfFilename);
+        error('Cannot open DXF file: %s', "TrackImperical.dxf");
     end
     lines = textscan(fid, '%s', 'Delimiter', '\n', 'Whitespace','');
     fclose(fid);
@@ -230,4 +230,4 @@ end
 
 
 
-PlotDXFSplines('Track.dxf')
+PlotDXFSplines('TrackImperical.dxf')
