@@ -3,9 +3,10 @@ function PlotDXFSplines(dxfFilename)
     % then smooth and build one continuous spline in the X–Z plane, and plot.
     %
     % Usage: PlotDXFSplines('FSAE_Track.dxf')
+    %CURRENTLY WORKING WITH THE METRIC TRACK
 
     % ---------- Read entire DXF as lines ----------
-    fid = fopen(dxfFilename, 'r');
+    fid = fopen("TrackImperical.dxf", 'r');
     if fid < 0
         error('Cannot open DXF file: %s', dxfFilename);
     end
