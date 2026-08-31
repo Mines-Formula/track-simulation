@@ -1,11 +1,11 @@
 # Track simulation
 # Goal of the project:
-Create a basic track simulation. Must be accurate within 5 seconds of actual lap times, should be 
+Create a basic track simulation. Must be accurate within 5 seconds of actual lap times, should be within 2 seconds.
 
 # Current setup:
-Main lap sim setup: read in the dxf file drawn by hand in oneshape, generate into one spline(track generator), read by track sim
+Main track sim setup: read in the dxf file drawn by hand in oneshape, generate into one spline(track generator), read by track sim
 track.m: trace the track
-Includes brake simulation for generating brake biases across the track. 
+Includes brake simulation for reviewing brake biases across the track. 
 All values are in imperical system (speed: ft/s, acceleration: ft/s^2)
 
 # Work to be done:
