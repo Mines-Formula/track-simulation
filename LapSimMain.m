@@ -36,7 +36,6 @@ kappa = num ./ denom;
 %speed limit based on lateral friction
 v_curve = sqrt((params.mu*params.g) ./ max(kappa,1e-6));
 
-%after this line is good
 % Step C: forward accel
 v = zeros(size(s));
 for i = 2:length(s)
