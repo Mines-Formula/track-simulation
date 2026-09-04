@@ -50,6 +50,6 @@ All values are in imperical system (speed: ft/s, acceleration: ft/s^2)
 # Work to be done
 ![Future architecture diagram](toDo.drawio.svg)
 
-Move away from dxf file, replace it with gps data from competition (gps_comp.csv)
+Move away from dxf file, replace it with gps data from competition (gps_comp.csv). Update the vehicle parameters based on MF13 (current car)
 
 MF13 lap time average: 151s
