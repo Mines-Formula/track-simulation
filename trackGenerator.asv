@@ -2,7 +2,7 @@ function PlotCSVGps(csvFileName)
     % PlotCSVGps — read csv file, stitch them together,
     % then smooth and build one continuous spline in the X–Z plane, and plot.
     %
-    % Usage: PlotCSVGps('FSAE_gps_comp.csv')
+    % Usage: PlotCSVGps('FSAE_Track.dxf')
 
     % ---------- Read CSV ----------
     try
@@ -22,8 +22,15 @@ function PlotCSVGps(csvFileName)
     gps_points = removeDuplicates(gps_points, 1e-6);
 
     trackSplineXZ = cscvn(gps_points);
+
+    form = trackSplineXZ.form;
+    breaks = trackSplineXZ.breaks;
+    coefs = trackSplineXZ.coefs;
+    pieces = trackSplineXZ.pieces;
+    order = trackSplineXZ.order;
+    dim = trackSplineXZ.dim;
     
-    save('TrackSpline.mat', 'trackSplineXZ');
+    save('TrackSpline.mat', 'form', 'breaks', 'coefs', 'pieces', 'order', 'dim');
 end
     
 function Q = removeDuplicates(P, tol)
