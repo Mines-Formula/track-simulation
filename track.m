@@ -1,15 +1,14 @@
 clc, clearvars, clear all
 
-infile = "fsaetrack.xlsx";
-outfile = "fsaetrack_fixed.xlsx";
+infile = "gps_comp.csv";
+outfile = "gps_fixed.csv";
 step = 0.01;
 interpPoints = 5000; % Using for interpolation accuracy
-jumpDetection = 5; % Detects large jumps
-axisPadding = 25;
 
-data = readtable(infile);
-X = data.X;
-Y = data.Y;
+% preserves column names and prevents override from Matlab
+data = readtable(infile, "VariableNamingRule","preserve");
+X = data.('Longitude 1664');
+Y = data.('Latitude 1664');
 
 invalidMask = (X == 0 | Y == 0 | X == 1e20 | Y == 1e20 | X == -1e20 | Y == -1e20);
 X(invalidMask) = [];
@@ -74,9 +73,13 @@ hold on;
 %plot(orderedX, orderedY, 'ko', 'MarkerSize', 3);
 plot(orderedX, orderedY, '.', 'Color', [0.5 0.5 0.5], 'MarkerSize', 3);
 axis equal;
+
+% axisPadding adjusts buffer based on data values no a flat integer
+axisPadding = (max(xx) - min(xx)) * 0.05;
 xlim([min(xx) - axisPadding, max(xx) + axisPadding]);
 ylim([min(yy) - axisPadding, max(yy) + axisPadding]);
 
+jumpDetection = 5; % Detects large jumps
 d_consec = sqrt(diff(orderedX).^2 + diff(orderedY).^2);
 th = median(d_consec) + jumpDetection * std(d_consec);
 bigIdx = find(d_consec > th);
@@ -84,10 +87,10 @@ bigIdx = find(d_consec > th);
 for k = bigIdx.'
     plot([orderedX(k), orderedX(k + 1)], [orderedY(k), orderedY(k + 1)], 'r-', 'LineWidth', 2);
     text(orderedX(k), orderedY(k), sprintf(' %d', k), 'Color', 'r', 'FontSize', 10);
-end
+end 
 
-
-reverseDirection = true;
+% handles forward or reverse
+reverseDirection = false;
 if reverseDirection
     idxRange = length(xx):-1:1;
 else
