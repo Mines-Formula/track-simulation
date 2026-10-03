@@ -51,4 +51,4 @@ function Q = removeDuplicates(P, tol)
 end
 
 
-PlotCSVGps('gps_comp.csv')
+%PlotCSVGps('gps_comp.csv')
